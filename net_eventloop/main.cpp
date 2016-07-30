@@ -4,29 +4,38 @@
 
 
 #include "EventLoop.h"
+#include "Channel.h"
+#include "TimerFd.h"
+
 #include <muduo/base/Thread.h>
 #include <muduo/base/CurrentThread.h>
-#include <stdio.h>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
+#include <muduo/base/Logging.h>
 
 
-void threadFunc() {
-    printf("start thread pid: %d, tid: %d \n", getpid(), muduo::CurrentThread::tid());
+dio::EventLoop* g_loop;
 
-    dio::EventLoop eventLoop;
-    eventLoop.loop();
+void timeout() {
+    LOG_INFO << "catch timeout event";
 }
 
 int main() {
 
     printf("hello eventloop\n");
     dio::EventLoop eventLoop;
+    g_loop = &eventLoop;
+
+    dio::TimerFd timerFd;
+    timerFd.setTime(5000);
+    dio::Channel channel(&eventLoop, timerFd.getFd());
+    channel.setReadCallback(boost::bind(&timeout));
+    channel.enableReading();
+
+    eventLoop.updateChannel(&channel);
+
     eventLoop.loop();
 
-    boost::function<void ()> f = boost::bind(&threadFunc);
-    muduo::Thread thread(f);
-    thread.start();
     pthread_exit(NULL);
 }
 
