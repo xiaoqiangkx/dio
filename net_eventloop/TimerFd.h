@@ -17,8 +17,7 @@
 
 namespace dio {
 
-class TimerFd
-        : public boost::noncopyable
+class TimerFd: public boost::noncopyable
 {
 private:
     int pipeFd_[2];
@@ -29,6 +28,7 @@ public:
 
     int getFd() const;
     void setTime(int timeout);
+    void cancelTime();
     void timerFunc(int timeoutMs);
 };
 };

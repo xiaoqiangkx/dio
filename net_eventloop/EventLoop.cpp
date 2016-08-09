@@ -18,7 +18,8 @@ namespace dio {
     looping_(false),
     threadId_(muduo::CurrentThread::tid()),
     quit_(false),
-    poller_(new Poller(this))
+    poller_(new Poller(this)),
+    timerQueue_(this)
     {
       if (t_loopInThisThread)
       {
@@ -45,7 +46,7 @@ namespace dio {
         looping_ = true;
         quit_ = false;
 
-        LOG_TRACE << "is looping";
+        LOG_INFO << "is looping";
         while (!quit_) {
             poller_->poll(kPollerTimeMs, &activeChannles);
             for (ChannelList::const_iterator ch = activeChannles.begin(); ch != activeChannles.end(); ++ch) {
@@ -53,7 +54,7 @@ namespace dio {
             }
         }
 
-        LOG_TRACE << "stop looping";
+        LOG_INFO << "stop looping";
         looping_ = false;
     }
 
@@ -81,6 +82,10 @@ namespace dio {
         assert(channel->ownerLoop() == this);
         assertInLoopThread();
         poller_->updateChannel(channel);
+    }
+
+    TimerId EventLoop::addTimer(muduo::Timestamp timestamp, const muduo::net::TimerCallback &cb) {
+        return timerQueue_.addTimer(cb, timestamp, 0.0);
     }
 
 };

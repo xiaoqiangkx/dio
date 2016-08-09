@@ -10,8 +10,8 @@
 #include <muduo/base/Thread.h>
 #include <muduo/base/CurrentThread.h>
 #include <boost/bind.hpp>
-#include <boost/function.hpp>
 #include <muduo/base/Logging.h>
+#include <muduo/base/Timestamp.h>
 
 
 dio::EventLoop* g_loop;
@@ -26,13 +26,10 @@ int main() {
     dio::EventLoop eventLoop;
     g_loop = &eventLoop;
 
-    dio::TimerFd timerFd;
-    timerFd.setTime(5000);
-    dio::Channel channel(&eventLoop, timerFd.getFd());
-    channel.setReadCallback(boost::bind(&timeout));
-    channel.enableReading();
-
-    eventLoop.updateChannel(&channel);
+    muduo::Timestamp nowTime = muduo::Timestamp::now();
+    muduo::Timestamp theTimer((nowTime.secondsSinceEpoch() + 5) * 1000 * 1000);   // 5s后触发事件
+    LOG_INFO << "THE tIME" << theTimer.secondsSinceEpoch();
+    eventLoop.addTimer(theTimer, boost::bind(timeout));
 
     eventLoop.loop();
 

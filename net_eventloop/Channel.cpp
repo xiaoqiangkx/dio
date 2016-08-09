@@ -17,8 +17,8 @@ namespace dio {
 
     Channel::Channel(EventLoop *loop, int fd):
         index_(-1),
-        revents_(0),
         events_(0),
+        revents_(0),
         loop_(loop),
         fd_(fd)
     {
@@ -33,6 +33,7 @@ namespace dio {
     }
 
     void Channel::handleEvent() {
+
         if (events_ & POLLNVAL) {
             LOG_WARN << "Channel::handleEvent POLLNVAL";
         }

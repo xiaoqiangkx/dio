@@ -20,12 +20,12 @@ namespace dio {
         int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs);
         muduo::Timestamp now(muduo::Timestamp::now());
         if (numEvents > 0) {
-            LOG_TRACE << numEvents << "evnents happend";
+//            LOG_INFO << numEvents << " evnents happend";
             fillActiveChannels(numEvents, activeChannels);
         } else if (numEvents == 0) {
-            LOG_TRACE << "Nothing happened";
+            LOG_INFO << "Nothing happened";
         } else {
-            LOG_SYSERR << "Poller::poll()";
+            LOG_INFO << "Poller::poll()";
         }
 
         return now;

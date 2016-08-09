@@ -9,8 +9,12 @@
 #include <boost/scoped_ptr.hpp>
 #include <muduo/base/CurrentThread.h>
 #include <vector>
+#include <muduo/base/Timestamp.h>
+#include <muduo/net/Callbacks.h>
 
+#include "TimerQueue.h"
 #include "Channel.h"
+#include "TimerId.h"
 
 
 namespace dio {
@@ -32,6 +36,8 @@ public:
     void quit();
     void updateChannel(Channel* channel);
 
+    TimerId addTimer(muduo::Timestamp timestamp, const muduo::net::TimerCallback &cb);
+
     static EventLoop* getEventLoopOfCurrentThread();
 
     typedef std::vector<Channel*> ChannelList;
@@ -41,6 +47,7 @@ private:
     bool quit_;
     boost::scoped_ptr<Poller> poller_;
     ChannelList activeChannles;
+    TimerQueue timerQueue_;
 
     static const int kPollerTimeMs;
 

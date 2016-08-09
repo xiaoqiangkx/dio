@@ -6,8 +6,8 @@
 
 #include <poll.h>
 #include <muduo/base/Logging.h>
-#include <thread>
 #include <boost/bind.hpp>
+#include <thread>
 
 
 namespace dio {
@@ -23,6 +23,7 @@ TimerFd::TimerFd()
 TimerFd::~TimerFd() {
     ::close(pipeFd_[1]);
     ::close(pipeFd_[0]);
+
 }
 
 int TimerFd::getFd() const {
@@ -36,15 +37,22 @@ void TimerFd::timerFunc(int timeoutMs) {
 }
 
 void TimerFd::setTime(int timeout) {
-    if (isTiming_) {
-        LOG_ERROR << "Timer is running.";
-        return;
-    }
+//    if (isTiming_) {
+//        LOG_ERROR << "Timer is running.";
+//        return;
+//    }
 
-    isTiming_ = true;
-    std::thread timer(boost::bind(&TimerFd::timerFunc, this, timeout));
-    timer.detach();
+    std::thread timer_ = std::thread(boost::bind(&TimerFd::timerFunc, this, timeout));
+    timer_.detach();
+}
 
+void TimerFd::cancelTime() {
+//    if (!isTiming_) {
+//        LOG_ERROR << "Timer is not running.";
+//        return;
+//    }
+
+//    isTiming_ = false;
 }
 
 };
