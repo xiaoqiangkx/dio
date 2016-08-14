@@ -1,4 +1,4 @@
-add_executable(net_eventloop main.cpp EventLoop.cpp EventLoop.h Channel.cpp Channel.h Poller.cpp Poller.h TimerFd.cpp TimerFd.h base.h TimerId.h Timer.h Timer.cpp TimerQueue.cpp TimerQueue.h EventFd.cpp EventFd.h Acceptor.cpp Acceptor.h Socket.h SocketsOps.h)
+add_executable(net_eventloop main.cpp EventLoop.cpp EventLoop.h Channel.cpp Channel.h Poller.cpp Poller.h TimerFd.cpp TimerFd.h base.h TimerId.h Timer.h Timer.cpp TimerQueue.cpp TimerQueue.h EventFd.cpp EventFd.h Acceptor.cpp Acceptor.h Socket.h SocketsOps.h TcpServer.cpp TcpServer.h TcpConnection.cpp TcpConnection.h Callbacks.h)
 
 target_link_libraries(
 net_eventloop PUBLIC muduo_net muduo_base pthread

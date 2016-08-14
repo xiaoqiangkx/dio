@@ -7,6 +7,8 @@
 #include "Channel.h"
 #include "TimerFd.h"
 #include "Acceptor.h"
+#include "TcpServer.h"
+#include "TcpConnection.h"
 
 #include <muduo/base/Thread.h>
 #include <muduo/base/CurrentThread.h>
@@ -22,11 +24,9 @@ void timeout() {
     LOG_INFO << "catch timeout event";
 }
 
-void newConnection(int fd, const muduo::net::InetAddress &address)
+void newConnection(const dio::TcpConnectionPtr& connection)
 {
-    LOG_INFO << "newConnection Build from address" << address.toIpPort();
-    ::write(fd, "hello world\n", 12);
-    muduo::net::sockets::close(fd);
+    LOG_INFO << "hello world";
 }
 
 int main() {
@@ -41,9 +41,12 @@ int main() {
 //    eventLoop.addTimer(theTimer, boost::bind(timeout));
 
     muduo::net::InetAddress listenAddress(1998);
-    dio::Acceptor acceptor(&eventLoop, listenAddress);
-    acceptor.setNewConnectionCallback(newConnection);
-    acceptor.listnen();
+//    dio::Acceptor acceptor(&eventLoop, listenAddress);
+//    acceptor.setNewConnectionCallback(newConnection);
+//    acceptor.listnen();
+    dio::TcpServer tcpServer(&eventLoop, listenAddress);
+    tcpServer.setConnectionCallback(newConnection);
+    tcpServer.start();
 
     eventLoop.loop();
 
