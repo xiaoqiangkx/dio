@@ -6,7 +6,7 @@
 #define DIO_EVENTFD_H
 
 
-#include <boost/core/noncopyable.hpp>
+#include <boost/noncopyable.hpp>
 
 namespace dio {
 

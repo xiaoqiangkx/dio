@@ -4,4 +4,4 @@ add_executable(noncopyable main.cpp)
 #    echo PUBLIC muduo
 #)
 
-target_compile_options(noncopyable PUBLIC -DMUDUO_STD_STRING -std=c++11 -Wall -Wfloat-conversion)
+target_compile_options(noncopyable PUBLIC -DMUDUO_STD_STRING -std=c++11 -Wall)

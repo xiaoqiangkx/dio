@@ -6,7 +6,7 @@
 #define DIO_CHANNEL_H
 
 
-#include <boost/core/noncopyable.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/function.hpp>
 
 

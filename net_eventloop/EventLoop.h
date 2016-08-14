@@ -5,8 +5,8 @@
 #ifndef DIO_EVENTLOOP_H
 #define DIO_EVENTLOOP_H
 
-#include <boost/core/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/noncopyable.hpp>
 #include <muduo/base/CurrentThread.h>
 #include <vector>
 #include <muduo/base/Timestamp.h>

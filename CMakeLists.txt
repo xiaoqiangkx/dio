@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 project(dio C CXX)
 
+FIND_PACKAGE(Boost REQUIRED)
 include_directories(
-    /Users/coolman/workspace/server/build/debug-install/include
+        /home/parallels/workspace/build/release-install/include
 )
 
 link_directories(   # 要放在add_executable前面
-    /Users/coolman/workspace/server/build/debug-install/lib
+        /home/parallels/workspace/build/release-install/lib
 )
 
 add_subdirectory(echo)
