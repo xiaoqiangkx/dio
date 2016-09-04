@@ -1,0 +1,2 @@
+add_executable(test_unittest test_unittest.cpp)
+target_link_libraries(test_unittest dio)
