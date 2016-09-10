@@ -18,7 +18,6 @@ namespace dio {
         acceptChannel_(loop, serverSocket_.fd()),
         listening_(false)
     {
-        LOG_INFO << "serverAddr: " << serverSocket_.fd() << ", channel_fd: " << acceptChannel_.fd();
         serverSocket_.bindAddress();
         acceptChannel_.setReadCallback(boost::bind(&Acceptor::handleRead, this));
     }

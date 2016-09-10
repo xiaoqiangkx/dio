@@ -6,7 +6,6 @@
 
 namespace dio {
 void InetAddress::initAddress(int port=0) {
-    LOG_INFO << "initAddress, port: " << port;
     bzero(&addr_, sizeof addr_);
 
     if (port != 0) {

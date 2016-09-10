@@ -35,7 +35,6 @@ void Socket::setReusePort(bool resusePortFlag) {
 }
 
 void Socket::bindAddress() {
-    LOG_INFO << "bindingAddress sockfd_: " << sockfd_;
     int ret = ::bind(sockfd_, (struct sockaddr *) &localAddr_, sizeof(localAddr_));
     if (ret < 0) {
         LOG_SYSERR << "failed to bind";
@@ -57,7 +56,6 @@ int Socket::accept(InetAddress* address) {
 }
 
 void Socket::listen() {
-    LOG_INFO << "listen sockfd_: " << sockfd_;
     int ret = ::listen(sockfd_, SOMAXCONN);
     if (ret < 0) {
         LOG_ERROR << "Failed to listen address";

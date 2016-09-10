@@ -16,17 +16,12 @@ namespace dio {
     Poller::~Poller() { }
 
     dio::Timestamp Poller::poll(int timeoutMs, ChannelList *activeChannels) {
-        for (PollFdList::const_iterator it = pollfds_.begin(); it != pollfds_.end(); it++) {
-            LOG_INFO << "fd: " << it->fd << ", events: " << it->events;
-        }
 
         int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs);
         dio::Timestamp now(dio::Timestamp::now());
         if (numEvents > 0) {
-            LOG_INFO << numEvents << " evnents happend";
             fillActiveChannels(numEvents, activeChannels);
         } else if (numEvents == 0) {
-            LOG_INFO << "Nothing happened";
         } else {
             LOG_INFO << "Poller::poll()";
         }
@@ -62,7 +57,6 @@ namespace dio {
             channels_[pfd.fd] = channel;
 
             int index = static_cast<int>(pollfds_.size()) - 1;
-            LOG_INFO << "index: " << index << ", fd: " << pfd.fd << ", events: " << pfd.events;
             channel->set_index(index);
 
         } else {

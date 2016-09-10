@@ -93,9 +93,7 @@ namespace dio {
         looping_ = true;
         quit_ = false;
 
-        LOG_INFO << "is looping";
         while (!quit_) {
-            sleep(1);
             poller_->poll(kPollerTimeMs, &activeChannles);
             dio::Timestamp now = dio::Timestamp::now();
             for (ChannelList::const_iterator ch = activeChannles.begin(); ch != activeChannles.end(); ++ch) {
@@ -105,7 +103,6 @@ namespace dio {
         }
 
         doPendingFunctors();
-        LOG_INFO << "stop looping";
         looping_ = false;
     }
 

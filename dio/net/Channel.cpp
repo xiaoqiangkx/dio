@@ -32,7 +32,6 @@ namespace dio {
 
     void Channel::update()
     {
-        LOG_INFO << "update channel~~~~~~~~~~~~~~~~~~~~~~~sockfd" << fd_;
         loop_->updateChannel(this);
     }
 
