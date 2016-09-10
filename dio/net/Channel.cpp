@@ -42,8 +42,6 @@ namespace dio {
 
     void Channel::handleEvent(dio::Timestamp timestamp) {
 
-        LOG_INFO << "handle Event: fd" << fd_;
-
         eventHandling_ = true;
         if (events_ & POLLNVAL) {
             LOG_WARN << "Channel::handleEvent POLLNVAL";
@@ -59,7 +57,6 @@ namespace dio {
 
         // TODO 此处需要处理哪些POLL事件??
         if (events_ & (POLLIN | POLLPRI)) {
-            LOG_INFO << "handle read callbck";
             if (readCallback_) readCallback_(timestamp);
         }
 
