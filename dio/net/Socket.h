@@ -12,6 +12,7 @@ namespace dio {
 class Socket {
 public:
     Socket(const InetAddress& addr);
+    Socket(int sockfd);
     bool isValid() const { return sockfd_ > 0; }
     int fd() const { return sockfd_; }
     void setReuseAddr(bool resuseAddrFlag);

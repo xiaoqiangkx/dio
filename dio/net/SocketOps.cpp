@@ -31,6 +31,17 @@ struct sockaddr_in getLocalAddr(int sockfd) {
     return localAddr;
 }
 
+
+struct sockaddr_in getPeerAddr(int sockfd) {
+    struct sockaddr_in peerAddr;
+    bzero(&peerAddr, sizeof peerAddr);
+    socklen_t addrlen = static_cast<socklen_t>(sizeof peerAddr);
+    if (::getpeername(sockfd, (struct sockaddr *) &peerAddr, &addrlen) < 0) {
+        LOG_SYSERR << "sockets::getPeerAddr";
+    }
+    return peerAddr;
+}
+
 void close(int fd) {
     if (::close(fd) < 0)
     {
@@ -55,6 +66,7 @@ ssize_t write(int sockfd, const void *buf, size_t count)
 
 void shutdownWrite(int sockfd)
 {
+    LOG_INFO << "Sockets::shutdown Write sockfd:" << sockfd;
     if (::shutdown(sockfd, SHUT_WR) < 0)
     {
         LOG_SYSERR << "sockets::shutdownWrite";

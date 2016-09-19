@@ -43,8 +43,8 @@ class Timestamp : public dio::copyable,
 
   // default copy/assignment/dtor are Okay
 
-  string toString() const;
-  string toFormattedString(bool showMicroseconds = true) const;
+  std::string toString() const;
+  std::string toFormattedString(bool showMicroseconds = true) const;
 
   bool valid() const { return microSecondsSinceEpoch_ > 0; }
 

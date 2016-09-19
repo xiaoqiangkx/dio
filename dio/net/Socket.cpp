@@ -17,6 +17,12 @@ Socket::Socket(const InetAddress& addr):
     sockfd_ = sockfd;
 }
 
+Socket::Socket(int sockfd):
+sockfd_(sockfd)
+{
+
+}
+
 void Socket::setReuseAddr(bool resuseAddrFlag) {
     int optval = resuseAddrFlag ? 1 : 0;
     ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,

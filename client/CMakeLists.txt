@@ -1,4 +1,4 @@
-add_executable(client main.cpp Connector.h)
+add_executable(client main.cpp Connector.h ../example/simple/discard.cpp)
 
 project(client)
 

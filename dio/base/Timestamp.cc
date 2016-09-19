@@ -15,7 +15,7 @@ namespace dio {
 
     BOOST_STATIC_ASSERT(sizeof(Timestamp) == sizeof(int64_t));
 
-    string Timestamp::toString() const {
+    std::string Timestamp::toString() const {
       char buf[32] = {0};
       int64_t seconds = microSecondsSinceEpoch_ / kMicroSecondsPerSecond;
       int64_t microseconds = microSecondsSinceEpoch_ % kMicroSecondsPerSecond;
@@ -23,7 +23,7 @@ namespace dio {
       return buf;
     }
 
-    string Timestamp::toFormattedString(bool showMicroseconds) const {
+    std::string Timestamp::toFormattedString(bool showMicroseconds) const {
       char buf[32] = {0};
       time_t seconds = static_cast<time_t>(microSecondsSinceEpoch_ / kMicroSecondsPerSecond);
       struct tm tm_time;

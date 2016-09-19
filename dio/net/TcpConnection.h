@@ -37,11 +37,18 @@ public:
         closeCallback_ = cb;
     }
 
+    InetAddress localAddr() const { return localAddr_; }
+    InetAddress peerAddr() const { return peerAddr_; }
+
     void connectEstablished();
     void connectDestroyed();
 
+    bool connected() const { return state_ == kConnected; }
+
     void send(const std::string &message);
     void shutdown();
+
+    std::string name() const { return name_; }
 
     std::string name_;
 private:

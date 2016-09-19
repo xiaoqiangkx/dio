@@ -19,13 +19,13 @@ namespace dio {
         listening_(false)
     {
         serverSocket_.bindAddress();
+        serverSocket_.setReusePort(true);
         acceptChannel_.setReadCallback(boost::bind(&Acceptor::handleRead, this));
     }
 
     void Acceptor::handleRead() {
         loop_->assertInLoopThread();
         InetAddress peerAddresss;
-        LOG_INFO << serverSocket_.fd();
         int conn_fd = serverSocket_.accept(&peerAddresss);
         if (conn_fd >= 0) {
             if (newConnectionCallback_) {

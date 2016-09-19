@@ -5,12 +5,13 @@
 #include <dio/base/Logging.h>
 #include <dio/net/TcpServer.h>
 #include <dio/net/Buffer.h>
+#include <dio/net/TcpConnection.h>
 
 using namespace dio;
 
-void newMessageCallback(const net::TcpConnectionPtr tcpConnection, net::Buffer* buffer, Timestamp now) {
-    string data = buffer->retrieveAllAsString();
-    LOG_INFO << "new message come: " << data;
+void newMessageCallback(const net::TcpConnectionPtr tcpConnection, net::Buffer* buffer, Timestamp time) {
+    string msg = buffer->retrieveAllAsString();
+    LOG_INFO << tcpConnection->name() << " discard " << msg.size() << " bytes data at " << time.toString();
 }
 
 int main() {

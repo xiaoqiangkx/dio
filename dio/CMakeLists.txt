@@ -13,4 +13,4 @@ target_link_libraries(
 dio PUBLIC pthread
 )
 
-target_compile_options(dio PUBLIC -std=c++11)
+target_compile_options(dio PUBLIC -std=c++11 -g)

@@ -4,4 +4,4 @@ PROJECT(example)
 
 add_subdirectory(simple)
 
-target_compile_options(dio PUBLIC -std=c++11)
+target_compile_options(dio PUBLIC -std=c++11 -g)

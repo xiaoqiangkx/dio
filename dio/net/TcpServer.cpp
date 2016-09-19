@@ -40,7 +40,6 @@ namespace dio {
 
     void TcpServer::newConnection(int connfd, const InetAddress& listenAddr) {
         // create an new TcpConnection and insert into connectionMap
-        LOG_INFO << "newConnection connfd: " << connfd;
         loop_->assertInLoopThread();
 
         char buf[32];
@@ -50,7 +49,11 @@ namespace dio {
 
         struct sockaddr_in local_addr = sockets::getLocalAddr(connfd);
         InetAddress localAddr(local_addr);
-        dio::net::TcpConnectionPtr newConnPtr(new TcpConnection(loop_, connName, connfd, localAddr, listenAddr));
+
+        struct sockaddr_in peer_addr = sockets::getPeerAddr(connfd);
+        InetAddress peerAddr(peer_addr);
+
+        dio::net::TcpConnectionPtr newConnPtr(new TcpConnection(loop_, connName, connfd, localAddr, peer_addr));
         connMaps_[connName] = newConnPtr;
 
         newConnPtr->setConnectionCallback(connectionCallback_);
@@ -59,6 +62,5 @@ namespace dio {
                boost::bind(&TcpServer::removeConnection, this, _1)
         );
         newConnPtr->connectEstablished();
-        LOG_INFO << "new connection is established";
     }
 };
