@@ -158,15 +158,15 @@ class Buffer : public dio::copyable
     writerIndex_ = kCheapPrepend;
   }
 
-  string retrieveAllAsString()
+  std::string retrieveAllAsString()
   {
     return retrieveAsString(readableBytes());;
   }
 
-  string retrieveAsString(size_t len)
+  std::string retrieveAsString(size_t len)
   {
     assert(len <= readableBytes());
-    string result(peek(), len);
+    std::string result(peek(), len);
     retrieve(len);
     return result;
   }

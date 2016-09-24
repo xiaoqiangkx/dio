@@ -3,11 +3,22 @@
 //
 #include <dio/net/EventLoop.h>
 #include <dio/net/TcpClient.h>
+#include <dio/base/Callbacks.h>
 #include <boost/bind.hpp>
+#include <dio/net/TcpConnection.h>
 #include <vector>
 
-void newConnectionCallback(int sockfd) {
-    LOG_INFO << "new Connection: " << sockfd;
+void newConnectionCallback(const dio::net::TcpConnectionPtr &connection) {
+    LOG_INFO << "new Connection: ";
+    if (connection->connected()) {
+        connection->send("123");
+    }
+}
+
+
+void newMessageCallback(const dio::net::TcpConnectionPtr &connection, dio::net::Buffer *buf, dio::Timestamp timestamp) {
+    std::string data = buf->retrieveAllAsString();
+    LOG_INFO << "newMessageCallback: " << data;
 }
 
 
@@ -26,7 +37,8 @@ int main() {
 //    }
 
     dio::TcpClient tcpClient(&eventLoop, address);
-    tcpClient.setNewConnectionCallback(boost::bind(&newConnectionCallback, _1));
+    tcpClient.setConnectionCallback(boost::bind(&newConnectionCallback, _1));
+    tcpClient.setMessageCallback(boost::bind(&newMessageCallback, _1, _2, _3));
     tcpClient.start();
     eventLoop.loop();
 

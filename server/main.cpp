@@ -16,8 +16,9 @@ void newConnection(const dio::net::TcpConnectionPtr& connection)
 }
 
 void messageCallback(const dio::net::TcpConnectionPtr &conn, dio::net::Buffer* buf, dio::Timestamp timestamp) {
-    dio::string data = buf->retrieveAllAsString();
+    std::string data = buf->retrieveAllAsString();
     LOG_INFO << "new message: " << data;
+    conn->send(data);
 }
 
 int main() {

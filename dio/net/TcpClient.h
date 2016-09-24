@@ -9,6 +9,8 @@
 #include <boost/core/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <dio/net/Connector.h>
+#include <dio/base/Callbacks.h>
+
 
 namespace dio {
 
@@ -18,8 +20,12 @@ class TcpClient : public boost::noncopyable {
 public:
     TcpClient(EventLoop* loop, const InetAddress &remoteAddress);
 
-    void setNewConnectionCallback(const Connector::NewConnectionCallback& cb) {
-        newConnectionCallback_ = cb;
+    void setMessageCallback(const dio::net::MessageCallback& cb) {
+        messageCallback_ = cb;
+    }
+
+    void setConnectionCallback(const dio::net::ConnectionCallback& cb) {
+        connectionCallback_ = cb;
     }
 
     void start();
@@ -27,9 +33,14 @@ public:
 private:
     EventLoop *loop_;
     boost::shared_ptr<Connector> connector_;
+    std::string name_;
+    dio::net::TcpConnectionPtr connection_;
+    dio::net::MessageCallback messageCallback_;
+    dio::net::ConnectionCallback connectionCallback_;
     Connector::NewConnectionCallback newConnectionCallback_;
 
-    void onNewConnectionCallback(int sockfd);
+    void removeConnection(const dio::net::TcpConnectionPtr &tcpConnection);
+    void newConnection(int connfd);
 
 };
 
