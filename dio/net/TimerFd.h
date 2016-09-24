@@ -29,6 +29,7 @@ public:
     void setTime(int timeout);
     void cancelTime();
     void timerFunc(int timeoutMs);
+    void read();
 };
 };
 

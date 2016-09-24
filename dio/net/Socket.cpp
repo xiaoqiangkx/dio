@@ -17,6 +17,14 @@ Socket::Socket(const InetAddress& addr):
     sockfd_ = sockfd;
 }
 
+Socket::Socket() {
+    int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
+    if (sockfd < 0) {
+        LOG_ERROR << "Failed to create sockfd";
+    }
+    sockfd_ = sockfd;
+}
+
 Socket::Socket(int sockfd):
 sockfd_(sockfd)
 {
@@ -59,6 +67,12 @@ int Socket::accept(InetAddress* address) {
     }
 
     return connfd;
+}
+
+int Socket::connect(InetAddress addr) {
+
+    int ret = sockets::connect(sockfd_, addr.address());
+    return ret;
 }
 
 void Socket::listen() {

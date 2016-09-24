@@ -32,7 +32,7 @@ namespace dio {
 
     void TimerQueue::handleRead()
     {
-
+        timerFd_.read();
         // 根据当前的时间,找出所有过期的Timer,并且处理其中的事件
         dio::Timestamp nowTimer(dio::Timestamp::now().secondsSinceEpoch() * 1000 * 1000);
 //        LOG_INFO << "Timer" << nowTimer.secondsSinceEpoch();
@@ -50,14 +50,13 @@ namespace dio {
 
     void TimerQueue::resetTimerFd() {
         // TODO
-        LOG_INFO << "resetTimerFd";
         timerFd_.cancelTime();  // 中断前一次Timer
         assert(timerList_.size() != 0);
         dio::Timestamp currentExpireTime = timerList_.begin()->first;
-        int leftTimer = currentExpireTime.secondsSinceEpoch() - dio::Timestamp::now().secondsSinceEpoch();
-        LOG_INFO << "leftTimer:" << leftTimer << "currentExpireTime:" << currentExpireTime.microSecondsSinceEpoch() <<
-                    "nowTimer:" << dio::Timestamp::now().secondsSinceEpoch();
-        timerFd_.setTime(leftTimer * 1000);
+        int leftTimer = currentExpireTime.microSecondsSinceEpoch() - dio::Timestamp::now().microSecondsSinceEpoch();
+        LOG_INFO << "leftTimer:" << leftTimer << ", currentExpireTime:" << currentExpireTime.microSecondsSinceEpoch() <<
+                    ", nowTimer:" << dio::Timestamp::now().microSecondsSinceEpoch();
+        timerFd_.setTime(int(leftTimer / 1000));
     }
 
     bool TimerQueue::insert(Timer *newTimer) {

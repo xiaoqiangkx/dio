@@ -53,8 +53,8 @@ namespace dio {
           t_loopInThisThread = this;
         }
 
-//        wakeupChannel_->setReadCallback(boost::bind(&EventLoop::handleRead, this));
-//        wakeupChannel_->enableReading();
+        wakeupChannel_->setReadCallback(boost::bind(&EventLoop::handleRead, this));
+        wakeupChannel_->enableReading();
     }
 
     void EventLoop::handleRead() {
@@ -100,9 +100,12 @@ namespace dio {
                 (*ch)->handleEvent(now);
             }
             activeChannles.clear();
+
+            doPendingFunctors();
         }
 
-        doPendingFunctors();
+
+
         looping_ = false;
     }
 
@@ -139,7 +142,18 @@ namespace dio {
         poller_->removeChannel(channel);
     }
 
-    TimerId EventLoop::addTimer(dio::Timestamp timestamp, const dio::net::TimerCallback &cb) {
+    TimerId EventLoop::runAfter(double delay, const dio::net::TimerCallback &cb) {
+
+        Timestamp when(addTime(Timestamp::now(), delay));
+        runAt(when, cb);
+    }
+
+    TimerId EventLoop::runEvery(double interval, const dio::net::TimerCallback &cb) {
+        Timestamp time(addTime(Timestamp::now(), interval));
+        return timerQueue_.addTimer(cb, time, interval);
+    }
+
+    TimerId EventLoop::runAt(dio::Timestamp timestamp, const dio::net::TimerCallback &cb) {
         return timerQueue_.addTimer(cb, timestamp, 0.0);
     }
 
@@ -172,7 +186,7 @@ namespace dio {
         }
 
         for (size_t i = 0; i < functors.size(); ++i) {
-            pendingFunctors_[i]();
+            functors[i]();
         }
 
         callingPendingFunctor_ = false;

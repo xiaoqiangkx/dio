@@ -47,7 +47,9 @@ public:
 
     void doPendingFunctors();
 
-    TimerId addTimer(dio::Timestamp timestamp, const dio::net::TimerCallback &cb);
+    TimerId runAt(dio::Timestamp timestamp, const dio::net::TimerCallback &cb);
+    TimerId runAfter(double delay, const dio::net::TimerCallback &cb);
+    TimerId runEvery(double interval, const dio::net::TimerCallback &cb);
 
     static EventLoop* getEventLoopOfCurrentThread();
 

@@ -69,7 +69,8 @@ namespace dio {
 
     void TcpConnection::handleClose() {
         loop_->assertInLoopThread();
-        assert(state_ == kDisconneting);
+        assert(state_ == kConnected);
+        setState(kDisconneting);
 
         channel_->disableAll();
         closeCallback_(shared_from_this());

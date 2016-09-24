@@ -11,6 +11,7 @@ namespace dio {
 
 class Socket {
 public:
+    Socket();
     Socket(const InetAddress& addr);
     Socket(int sockfd);
     bool isValid() const { return sockfd_ > 0; }
@@ -20,6 +21,7 @@ public:
     void bindAddress();
 
     int accept(InetAddress* address);
+    int connect(InetAddress address);
     void shutdownWrite();
     void listen();
 private:

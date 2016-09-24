@@ -82,21 +82,22 @@ namespace dio {
         assert(channels_[channel->fd()] == channel);
         assert(channel->isNoneEvents());
         int idx = channel->get_index();
+
         int pollfd_size = static_cast<int>(pollfds_.size());
         assert (idx >= 0 && idx < pollfd_size);
-        assert(channels_[idx] == channel);
 
         if (idx == pollfd_size - 1) {
             channels_.erase(channel->fd());
             pollfds_.pop_back();
         } else {
             std::iter_swap(pollfds_.end() - 1, pollfds_.begin() + idx);
-            int realFd = pollfds_.back().fd;
+            int realFd = (pollfds_.begin() + idx)->fd;
             if (realFd < 0) {
                 realFd = - realFd - 1;
             }
             channels_[realFd]->set_index(idx);
             pollfds_.pop_back();
+            channels_.erase(channel->fd());
         }
     }
 };
