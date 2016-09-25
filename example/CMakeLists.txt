@@ -4,5 +4,6 @@ PROJECT(example)
 
 add_subdirectory(simple)
 add_subdirectory(chat)
+add_subdirectory(protobuf)
 
 target_compile_options(dio PUBLIC -std=c++11 -g)
