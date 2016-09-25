@@ -22,6 +22,11 @@ void newMessageCallback(const dio::net::TcpConnectionPtr &connection, dio::net::
 }
 
 
+void WriteCompleteCallback(const dio::net::TcpConnectionPtr& connection) {
+    LOG_INFO << "write complete callback";
+}
+
+
 int main() {
     dio::EventLoop eventLoop;
     dio::InetAddress address(1998);
@@ -39,6 +44,7 @@ int main() {
     dio::TcpClient tcpClient(&eventLoop, address);
     tcpClient.setConnectionCallback(boost::bind(&newConnectionCallback, _1));
     tcpClient.setMessageCallback(boost::bind(&newMessageCallback, _1, _2, _3));
+    tcpClient.setWriteCompleteCallback(boost::bind(&WriteCompleteCallback, _1));
     tcpClient.start();
     eventLoop.loop();
 

@@ -33,6 +33,10 @@ public:
         connectionCallback_ = cb;
     }
 
+    void setWriteCompleteCallback(const dio::net::WriteCompleteCallback& cb) {
+        writeCompleteCallback_ = cb;
+    }
+
     void setCloseCallback(const dio::net::CloseCallback& cb) {
         closeCallback_ = cb;
     }
@@ -71,6 +75,7 @@ private:
     enum StateE state_;
     dio::net::MessageCallback messageCallback_;
     dio::net::ConnectionCallback connectionCallback_;
+    dio::net::WriteCompleteCallback writeCompleteCallback_;
     dio::net::CloseCallback closeCallback_;
     dio::net::Buffer inputBuffer_;
     dio::net::Buffer outputBuffer_;

@@ -21,6 +21,10 @@ void messageCallback(const dio::net::TcpConnectionPtr &conn, dio::net::Buffer* b
     conn->send(data);
 }
 
+void writeCompleteCallback(const dio::net::TcpConnectionPtr& connection) {
+    LOG_INFO << "write_complete_callback";
+}
+
 int main() {
     LOG_INFO <<"hello eventloop";
     dio::EventLoop eventLoop;
@@ -29,6 +33,7 @@ int main() {
     dio::TcpServer tcpServer(&eventLoop, listenAddress);
     tcpServer.setConnectionCallback(newConnection);
     tcpServer.setMessageCallback(messageCallback);
+    tcpServer.setWriteCompleteCallback(writeCompleteCallback);
 
     tcpServer.start();
     eventLoop.loop();

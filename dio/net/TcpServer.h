@@ -27,6 +27,10 @@ public:
         connectionCallback_ = cb;
     }
 
+    void setWriteCompleteCallback(const dio::net::WriteCompleteCallback& cb) {
+        writeCompleteCallback_ = cb;
+    }
+
     void start();
 
 private:
@@ -35,6 +39,7 @@ private:
     boost::shared_ptr<Acceptor> acceptorPtr_;
     dio::net::MessageCallback messageCallback_;
     dio::net::ConnectionCallback connectionCallback_;
+    dio::net::WriteCompleteCallback writeCompleteCallback_;
     connectionMap connMaps_;
     bool started_;
     int nextConnId_;

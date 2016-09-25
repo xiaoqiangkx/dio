@@ -59,6 +59,7 @@ namespace dio {
 
         connection_->setConnectionCallback(connectionCallback_);
         connection_->setMessageCallback(messageCallback_);
+        connection_->setWriteCompleteCallback(writeCompleteCallback_);
         connection_->setCloseCallback(
                 boost::bind(&TcpClient::removeConnection, this, _1)
         );

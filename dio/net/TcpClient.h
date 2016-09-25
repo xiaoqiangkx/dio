@@ -28,6 +28,10 @@ public:
         connectionCallback_ = cb;
     }
 
+    void setWriteCompleteCallback(const dio::net::WriteCompleteCallback& cb) {
+        writeCompleteCallback_ = cb;
+    }
+
     void start();
     void stop();
 private:
@@ -37,6 +41,7 @@ private:
     dio::net::TcpConnectionPtr connection_;
     dio::net::MessageCallback messageCallback_;
     dio::net::ConnectionCallback connectionCallback_;
+    dio::net::WriteCompleteCallback writeCompleteCallback_;
     Connector::NewConnectionCallback newConnectionCallback_;
 
     void removeConnection(const dio::net::TcpConnectionPtr &tcpConnection);

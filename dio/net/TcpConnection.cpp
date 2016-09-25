@@ -51,8 +51,10 @@ namespace dio {
             ssize_t n = ::write(channel_->fd(), outputBuffer_.peek(), outputBuffer_.readableBytes());
             if (n > 0) {
                 outputBuffer_.retrieve(n);
+                LOG_INFO << "send~~~~~~~~~~~~~~";
                 if (outputBuffer_.readableBytes() == 0) {
                     channel_->disableWriting();
+                    if (writeCompleteCallback_) writeCompleteCallback_(shared_from_this());
                     if (state_ == kDisconneting) {
                         shutdownInLoop();
                     }
@@ -146,6 +148,10 @@ namespace dio {
             if (!channel_->isWriting()) {
                 channel_->enableWriting();
             }
+        }
+
+        if (outputBuffer_.readableBytes() == 0) {
+            if (writeCompleteCallback_) { writeCompleteCallback_(shared_from_this()); }
         }
     }
 };

@@ -61,6 +61,7 @@ namespace dio {
         newConnPtr->setCloseCallback(
                boost::bind(&TcpServer::removeConnection, this, _1)
         );
+        newConnPtr->setWriteCompleteCallback(writeCompleteCallback_);
         newConnPtr->connectEstablished();
     }
 };
