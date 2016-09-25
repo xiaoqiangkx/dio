@@ -8,6 +8,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/any.hpp>
 #include <dio/net/Socket.h>
 #include <dio/base/Callbacks.h>
 #include <dio/net/Buffer.h>
@@ -54,6 +55,14 @@ public:
 
     std::string name() const { return name_; }
 
+    void setContext(const boost::any& context) {
+        context_ = context;
+    }
+
+    boost::any& getContext() {
+        return context_;
+    }
+
     std::string name_;
 private:
     enum StateE {kConnecting, kConnected, kDisconneting, kDisconnected};
@@ -79,6 +88,7 @@ private:
     dio::net::CloseCallback closeCallback_;
     dio::net::Buffer inputBuffer_;
     dio::net::Buffer outputBuffer_;
+    boost::any context_;
 };
 };
 

@@ -73,7 +73,6 @@ namespace dio {
 
     void TcpConnection::handleClose() {
         loop_->assertInLoopThread();
-        assert(state_ == kConnected);
         setState(kDisconneting);
 
         channel_->disableAll();
@@ -116,7 +115,7 @@ namespace dio {
         }
     }
 
-    void TcpConnection::send(const std::string &message) {
+    void TcpConnection::send(const std::string& message) {
         if (state_ == kConnected) {
             if (loop_->isInLoopThread()) {
                 sendInLoop(message);
