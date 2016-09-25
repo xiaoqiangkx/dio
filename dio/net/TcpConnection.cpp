@@ -54,7 +54,9 @@ namespace dio {
                 LOG_INFO << "send~~~~~~~~~~~~~~";
                 if (outputBuffer_.readableBytes() == 0) {
                     channel_->disableWriting();
-                    if (writeCompleteCallback_) writeCompleteCallback_(shared_from_this());
+                    if (writeCompleteCallback_) {
+                        loop_->QueueInLoop(boost::bind(writeCompleteCallback_, shared_from_this()));
+                    }
                     if (state_ == kDisconneting) {
                         shutdownInLoop();
                     }
@@ -151,7 +153,9 @@ namespace dio {
         }
 
         if (outputBuffer_.readableBytes() == 0) {
-            if (writeCompleteCallback_) { writeCompleteCallback_(shared_from_this()); }
+            if (writeCompleteCallback_) {
+                loop_->QueueInLoop(boost::bind(writeCompleteCallback_, shared_from_this()));
+            }
         }
     }
 };
