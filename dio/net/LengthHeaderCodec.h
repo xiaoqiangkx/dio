@@ -19,7 +19,7 @@ public:
     void onMessage(const net::TcpConnectionPtr tcpConnection, net::Buffer* buffer, Timestamp time);
     void send(const dio::net::TcpConnectionPtr&, const std::string&);
 private:
-    const int kHeaderLength = 4;
+    const static int kHeaderLength = 4;
     StringMessageCallback stringMessageCallback_;
 };
 

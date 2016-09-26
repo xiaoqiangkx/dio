@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 #include <dio/base/Logging.h>
 #include <arpa/inet.h>
+#include <stdio.h>
 
 
 namespace dio {

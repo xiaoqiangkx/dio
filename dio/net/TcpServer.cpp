@@ -39,6 +39,7 @@ namespace dio {
     }
 
     void TcpServer::newConnection(int connfd, const InetAddress& listenAddr) {
+        LOG_INFO << "TcpServer::newConnection";
         // create an new TcpConnection and insert into connectionMap
         loop_->assertInLoopThread();
 
