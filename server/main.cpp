@@ -31,6 +31,7 @@ int main() {
 
     dio::InetAddress listenAddress(1998);
     dio::TcpServer tcpServer(&eventLoop, listenAddress);
+    tcpServer.setThreadNum(2);
     tcpServer.setConnectionCallback(newConnection);
     tcpServer.setMessageCallback(messageCallback);
     tcpServer.setWriteCompleteCallback(writeCompleteCallback);

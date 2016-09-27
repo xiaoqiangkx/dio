@@ -63,6 +63,10 @@ public:
         return context_;
     }
 
+    EventLoop* getLoop() {
+        return loop_;
+    }
+
     std::string name_;
 private:
     enum StateE {kConnecting, kConnected, kDisconneting, kDisconnected};

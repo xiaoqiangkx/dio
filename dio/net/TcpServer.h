@@ -12,6 +12,7 @@
 #include <dio/net/EventLoop.h>
 #include <dio/net/Acceptor.h>
 #include <dio/base/Callbacks.h>
+#include <dio/net/EventLoopThreadPool.h>
 
 namespace dio {
 
@@ -33,6 +34,10 @@ public:
 
     void start();
 
+    void setThreadNum(int num) {
+        threadPool_->setThreadNum(num);
+    }
+
 private:
     typedef std::map<std::string, dio::net::TcpConnectionPtr> connectionMap;
     EventLoop *loop_;
@@ -44,9 +49,11 @@ private:
     bool started_;
     int nextConnId_;
     std::string name_;
+    boost::scoped_ptr<EventLoopThreadPool> threadPool_;
 
     void newConnection(int connfd, const InetAddress& listenAddr);
     void removeConnection(const dio::net::TcpConnectionPtr& tcpConnection);
+    void removeConnectionInLoop(const dio::net::TcpConnectionPtr& tcpConnection);
 };
 
 };
